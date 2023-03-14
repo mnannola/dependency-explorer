@@ -1,7 +1,9 @@
 import { json } from '@remix-run/node';
 import { Form, useActionData } from "@remix-run/react";
+import fixtureData from '../../fixtureData';
 
 export async function action({ request }) {
+    /*
     const body = await request.formData();
     const packageDataString = body.get("packageData");
     if (!packageDataString) {
@@ -23,7 +25,9 @@ export async function action({ request }) {
     const data = await Promise.all(res.map(item => item.json()));
 
     // return array of responses
-    return json(data);
+    console.log(data);
+    */
+    return json(fixtureData);
   }
   
 
@@ -37,26 +41,31 @@ export default function Start() {
                     <p>Copy and paste package.json below</p>
                 </div>
                 <div>
-                    <textarea id="packageData" name="packageData" rows="20" cols="30"></textarea>
+                    <textarea className='border-2 border-gray-500' id="packageData" name="packageData" rows="20" cols="30"></textarea>
                 </div>                
-                <button>Go</button>
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Go</button>
             </Form>
-            <div>
-                <table>
-                    <tr>
-                        <th>Package Name</th>
-                        <th>Latest Version</th>
-                        <th>Version Release Date</th>
-                    </tr>
-                    {data ? data.map(pkg => (
-                        <tr key={pkg._id}>
-                            <td>{pkg.name}</td>
-                            <td>{pkg['dist-tags'].latest}</td>
-                            <td>{pkg.time[pkg['dist-tags']['latest']]}</td>
-                        </tr>
-                    )) : null}
-                </table>
-            </div>
+            {data &&
+                <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th className="px-6 py-3">Package Name</th>
+                                <th className="px-6 py-3">Latest Version</th>
+                                <th className="px-6 py-3">Version Release Date</th>
+                            </tr>
+                        </thead>
+                        
+                        {data.map(pkg => (
+                            <tr key={pkg._id}>
+                                <td>{pkg.name}</td>
+                                <td>{pkg['dist-tags'].latest}</td>
+                                <td>{pkg.time[pkg['dist-tags']['latest']]}</td>
+                            </tr>
+                        ))}
+                    </table>
+                </div>
+            }
         
         </>        
     );
