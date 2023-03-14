@@ -35,7 +35,7 @@ export default function Start() {
     const data = useActionData();
     console.log(data);
     return (
-        <>
+        <div className="p-3">
             <Form method="post">
                 <div>
                     <p>Copy and paste package.json below</p>
@@ -67,6 +67,6 @@ export default function Start() {
                 </div>
             }
         
-        </>        
+        </div>        
     );
 }
